@@ -1,3 +1,10 @@
 build/
 dist/
 constraints.txt
+venv/
+varfilter/__pycache__/
+varfilter.egg-info/
+#Eclipse
+.project
+.pydevproject
+.settings/
