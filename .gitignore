@@ -2,6 +2,7 @@ build/
 dist/
 constraints.txt
 venv/
+bandit-env/
 varfilter/__pycache__/
 varfilter.egg-info/
 #Eclipse

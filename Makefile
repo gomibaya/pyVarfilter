@@ -1,8 +1,9 @@
-.PHONY: help prepare-dev test lint clean clean-build clean-pyc build publishpip publishpiptest
+.PHONY: help prepare-dev test lint securitylint banditenv securitylint clean clean-build clean-pyc clean-bandit build publishpip publishpiptest
 
 VENV_NAME?=venv
 VENV_ACTIVATE=. $(VENV_NAME)/bin/activate
 PYTHON=${VENV_NAME}/bin/python3
+BANDIT=bandit-env/bin/bandit
 
 .DEFAULT: help
 help:
@@ -46,6 +47,13 @@ lint: venv
 	pylama varfilter
     #${PYTHON} -m pylint
     #${PYTHON} -m mypy
+    
+banditenv:
+	virtualenv bandit-env
+	bandit-env/bin/pip3 -q install bandit
+    
+securitylint: banditenv
+	${BANDIT} -r varfilter/
 
 #run: venv
 #    ${PYTHON} app.py
@@ -68,7 +76,10 @@ clean-pyc:
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -fr {} +
 
-build: lint test
+clean-bandit:
+	rm -rf bandit-env/
+
+build: lint test securitylint
 	${PYTHON} setup.py sdist bdist_wheel
 	
 publishpip: build
