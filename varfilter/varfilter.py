@@ -6,7 +6,7 @@ __copyright__ = "Copyright 2020, Esteban Barón ,EBP"
 __license__ = "MIT"
 __email__ = "esteban@gominet.net"
 __status__ = "Alpha"
-__version__ = "1.0.0a1"
+__version__ = "1.0.0a2"
 
 import logging
 

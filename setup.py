@@ -5,13 +5,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="varfilter",
-    version="1.0.0a1",
+    version="1.0.0a2",
     author="Esteban Barón",
     author_email="esteban@gominet.net",
     description="filtra variables de distintas fuentes",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/gomibaya/pyVarfilter/tarball/1.0.0a1",
+    url="https://github.com/gomibaya/pyVarfilter/",
     packages=setuptools.find_packages(),
     classifiers=[
         # How mature is this project? Common values are
