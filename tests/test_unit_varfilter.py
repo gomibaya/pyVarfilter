@@ -1,6 +1,6 @@
 import unittest
 import logging
-import varfilter
+from varfilter import varfilter
 
 
 class TestVarfilter(unittest.TestCase):

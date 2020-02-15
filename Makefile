@@ -1,9 +1,19 @@
-.PHONY: help prepare-dev test lint securitylint banditenv securitylint clean clean-build clean-pyc clean-bandit build publishpip publishpiptest
+.PHONY: help prepare-dev test lint securitylint banditenv securitylint clean clean-build clean-pyc clean-bandit clean-output build publishpip publishpiptest
 
 VENV_NAME?=venv
 VENV_ACTIVATE=. $(VENV_NAME)/bin/activate
 PYTHON=${VENV_NAME}/bin/python3
 BANDIT=bandit-env/bin/bandit
+
+ODIR=output
+SDIR=varfilter
+TDIR=tests
+
+_SRCS = filter.py varfilter.py
+SRCS = $(patsubst %,$(SDIR)/%,$(_SRCS))
+LINTS = $(patsubst %,$(ODIR)/%.lint,$(_SRCS))
+SECURES = $(patsubst %,$(ODIR)/%.secure,$(_SRCS))
+TESTS = $(patsubst %,$(ODIR)/test_unit_%.test,$(_SRCS))
 
 .DEFAULT: help
 help:
@@ -13,6 +23,8 @@ help:
 	@echo "       run tests"
 	@echo "make lint"
 	@echo "       run pylama"
+	@echo "make full"
+	@echo "		  check all the python files in projects"
 #	@echo "make run"
 #	@echo "       run project"
 #	@echo "make doc"
@@ -39,14 +51,28 @@ $(VENV_NAME)/bin/activate: setup.py
 	${PYTHON} -m pip install --upgrade setuptools wheel
 	touch $(VENV_NAME)/bin/activate
 
-
 test: venv
-	${PYTHON} tests/test_varfilter_unittest.py
+	${PYTHON} ${TDIR}/test_unit_filter.py
+	${PYTHON} ${TDIR}/test_unit_varfilter.py
 
 lint: venv
-	pylama varfilter
+	pylama varfilter/*.py
     #${PYTHON} -m pylint
     #${PYTHON} -m mypy
+    
+$(ODIR)/%.py.lint: $(SDIR)/%.py
+	@echo "lint $<"
+	@pylama --report $@  $< && echo "success!" || { cat $@; rm $@; exit 1; }
+
+$(ODIR)/%.py.secure: $(SDIR)/%.py
+	@echo "bandit $<"
+	@${BANDIT} -o $@  $< && echo "success!" || { cat $@; rm $@; exit 1; }
+
+$(ODIR)/%.py.test: $(TDIR)/%.py
+	@echo "test $<"
+	@${PYTHON} $< > $@ 2>&1 && echo "success!" || { cat $@; rm $@; exit 1; }
+		
+full: $(LINTS) $(SECURES) $(TESTS)
     
 banditenv:
 	virtualenv bandit-env
@@ -61,7 +87,7 @@ securitylint: banditenv
 #doc: venv
 #    $(VENV_ACTIVATE) && cd docs; make html
 
-clean: clean-build clean-pyc
+clean: clean-build clean-pyc clean-output
 
 clean-build:
 	rm -fr build/
@@ -77,7 +103,13 @@ clean-pyc:
 	find . -name '__pycache__' -exec rm -fr {} +
 
 clean-bandit:
-	rm -rf bandit-env/
+	find . -name '*.pyc' -exec rm -f {} +
+	find . -name '*.pyo' -exec rm -f {} +
+	
+clean-output:
+	find $(ODIR) -name '*.py.lint' -exec rm -f {} +
+	find $(ODIR) -name '*.py.secure' -exec rm -f {} +
+	find $(ODIR) -name '*.py.test' -exec rm -f {} +
 
 build: lint test securitylint
 	${PYTHON} setup.py sdist bdist_wheel

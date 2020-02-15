@@ -6,9 +6,10 @@ __copyright__ = "Copyright 2020, Esteban Barón ,EBP"
 __license__ = "MIT"
 __email__ = "esteban@gominet.net"
 __status__ = "Alpha"
-__version__ = "1.0.0a3"
+__version__ = "1.0.0a4"
 
 import logging
+from varfilter import filter
 
 
 class VarFilter:
@@ -41,8 +42,8 @@ def fVar(name, default=None, type=None, *sources):
     # Filtra la salida dependiendo del type
     if type == 'int':
         try:
-            ret = int(ret)
-        except ValueError:
+            ret = filter.fint(ret)
+        except filter.IntegerError:
             ret = None
     else:
         try:

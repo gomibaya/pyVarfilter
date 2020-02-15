@@ -1,5 +1,6 @@
 build/
 dist/
+output/
 constraints.txt
 venv/
 bandit-env/
