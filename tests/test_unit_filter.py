@@ -33,6 +33,11 @@ class Testfilter(unittest.TestCase):
         t = filter.fint("0b1010")
         self.assertEqual(t, 10)
 
+    def test_ffloat_str_ok(self):
+        print("ffloat con float string correcto")
+        t = filter.ffloat(" -10.2")
+        self.assertEqual(t, -10.2)
+
     def test_fbool_int_ok(self):
         print("fbool con entero correcto")
         t = filter.fbool(10)
@@ -68,6 +73,11 @@ class Testfilter(unittest.TestCase):
         for element in elements:
             t = filter.fbool(element)
             self.assertEqual(t, False)
+
+    def test_fstr_bool_false(self):
+        print("fstr con bool false")
+        t = filter.fstr(False)
+        self.assertEqual(t, 'False')
 
 
 if __name__ == '__main__':

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="varfilter",
-    version="1.0.0a4",
+    version="1.0.0a5",
     author="Esteban Barón",
     author_email="esteban@gominet.net",
     description="filtra variables de distintas fuentes",
@@ -20,8 +20,13 @@ setuptools.setup(
         #   5 - Production/Stable
         'Development Status :: 3 - Alpha',
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3 :: Only",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
+        "Natural Language :: Spanish",
     ],
     python_requires='>=3.6',
 )
