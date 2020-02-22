@@ -18,7 +18,8 @@ class VarFilter:
         for data in Adata:
             self._values[data.Name] = fVar(data.Name,
                                            data.Default,
-                                           data.Type, sources)
+                                           data.Type,
+                                           sources)
 
     def __getattribute__(self, attribute):
         if attribute in self._values:
