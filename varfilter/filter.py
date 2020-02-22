@@ -13,7 +13,7 @@ __copyright__ = "Copyright 2020, Esteban Barón ,EBP"
 __license__ = "MIT"
 __email__ = "esteban@gominet.net"
 __status__ = "Alpha"
-__version__ = "1.0.0a5"
+__version__ = "1.0.0a8"
 
 
 class ConvertionError(Exception):
@@ -160,6 +160,59 @@ def fstr(data=None):
     except (ValueError, TypeError):
         raise StringError
     return ret
+
+
+def fnone(data=None):
+    """Devuelve el valor sin filtrar.
+
+    Funcion dummy, devuelve lo  que le entra.
+
+    Parameters
+    ----------
+    data : any
+
+    Returns
+    -------
+    any
+        Lo mismo que la entrada
+
+    """
+    return data
+
+
+def ffactory(type, data=None):
+    """Devuelve el valor filtrado por la función indicada en type
+
+    Metodo factory, llama a la función type de filtrado.
+
+    Parameters
+    ----------
+    type: str
+
+    data: any
+
+    Returns
+    -------
+    any
+        Depende de la función llamada
+
+    Raises
+    ------
+    ConvertionError
+
+    """
+    dfunc = {
+        'int': fint,
+        'float': ffloat,
+        'bool': fbool,
+        'str': fstr,
+        'none': fnone,
+    }
+    if type in dfunc:
+        ffunc = dfunc[type]
+    else:
+        ffunc = dfunc['none']
+    return ffunc(data)
 
 
 if __name__ == "__main__":

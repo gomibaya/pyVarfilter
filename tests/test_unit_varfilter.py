@@ -1,6 +1,6 @@
 import unittest
 import logging
-from varfilter import varfilter
+from varfilter import varfilter, filter
 
 
 class TestVarfilter(unittest.TestCase):
@@ -47,11 +47,12 @@ class TestVarfilter(unittest.TestCase):
 
     def test_fVar_default_existent_int_filtererror(self):
         print("fVar con valor por defecto erroneo existente de tipo int")
-        t = varfilter.fVar("test1",
-                           "error",
-                           "int",
-                           self.source1)
-        self.assertEqual(t, None)
+        self.assertRaises(filter.IntegerError,
+                          varfilter.fVar,
+                          'test1',
+                          'error',
+                          'int',
+                          self.source1)
 
     def test_fVar_existent_severalsources(self):
         print("fVar con valor existente varios sources")

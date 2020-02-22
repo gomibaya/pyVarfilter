@@ -9,7 +9,7 @@ ODIR=output
 SDIR=varfilter
 TDIR=tests
 
-_SRCS = filter.py varfilter.py
+_SRCS = filter.py types.py varfilter.py
 SRCS = $(patsubst %,$(SDIR)/%,$(_SRCS))
 LINTS = $(patsubst %,$(ODIR)/%.lint,$(_SRCS))
 SECURES = $(patsubst %,$(ODIR)/%.secure,$(_SRCS))

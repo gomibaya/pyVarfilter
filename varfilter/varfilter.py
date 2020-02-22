@@ -6,7 +6,7 @@ __copyright__ = "Copyright 2020, Esteban Barón ,EBP"
 __license__ = "MIT"
 __email__ = "esteban@gominet.net"
 __status__ = "Alpha"
-__version__ = "1.0.0a5"
+__version__ = "1.0.0a8"
 
 import logging
 from varfilter import filter
@@ -32,6 +32,9 @@ def fVar(name, default=None, type=None, *sources):
     """Obtiene variable de diferentes dicts
 
     Convierte a str desde distintos tipos.
+    Si no se encuentra, o error en la conversion devuelve el default.
+    Si el default no pasa la conversión devuelve error.
+    Si el tipo no es reconocido, se utiliza none, es decir, no convertir
 
     Parameters
     ----------
@@ -48,29 +51,25 @@ def fVar(name, default=None, type=None, *sources):
 
     """
     logging.debug("fVar: El nombre a buscar es %s", name)
+    found = False
     ret = default
-    dfunc = {
-        'int': filter.fint,
-        'float': filter.ffloat,
-        'bool': filter.fbool,
-        'str': filter.fstr,
-        }
+
     # logging.debug("fVar: El sources es %s", sources)
     for source in sources:
         if name in source:
             ret = source[name]
-            break
+            try:
+                ret = filter.ffactory(type, ret)
+            except filter.ConvertionError:
+                pass
+            else:
+                found = True
+                # Sólo sale si lo ha encontrado y es correcto
+                # Es decir, continua búscando si hay error
+                break
 
-    # Filtra la salida dependiendo del type
-    if type in dfunc:
-        ffunc = dfunc[type]
-    else:
-        ffunc = dfunc['str']
-
-    try:
-        ret = ffunc(ret)
-    except filter.ConvertionError:
-        ret = None
+    if not found and default is not None:
+        ret = filter.ffactory(type, default)
 
     return ret
 
