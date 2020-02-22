@@ -57,9 +57,8 @@ def fVar(name, default=None, type=None, *sources):
     # logging.debug("fVar: El sources es %s", sources)
     for source in sources:
         if name in source:
-            ret = source[name]
             try:
-                ret = filter.ffactory(type, ret)
+                ret = filter.ffactory(type, source[name])
             except filter.ConvertionError:
                 pass
             else:

@@ -58,15 +58,15 @@ def fint(data=None):
     ------
     IntegerError
     """
-    ret = data
     try:
-        if type(ret) is str:
-            ret = int(ret, 0)
+        if type(data) is str:
+            ret = int(data, 0)
         else:
-            ret = int(ret)
+            ret = int(data)
     except (ValueError, TypeError):
         raise IntegerError
-    return ret
+    else:
+        return ret
 
 
 def ffloat(data=None):
@@ -87,12 +87,12 @@ def ffloat(data=None):
     ------
     FloatError
     """
-    ret = data
     try:
-        ret = float(ret)
+        ret = float(data)
     except (ValueError, TypeError):
         raise FloatError
-    return ret
+    else:
+        return ret
 
 
 def fbool(data=None):
@@ -127,13 +127,12 @@ def fbool(data=None):
         # si lo será.
         elif data == '':
             data = None
-    ret = data
     try:
         ret = fint(data)
     except IntegerError:
         raise BooleanError
-    ret = bool(ret)
-    return ret
+    else:
+        return bool(ret)
 
 
 def fstr(data=None):
@@ -154,12 +153,10 @@ def fstr(data=None):
     ------
     StringError
     """
-    ret = data
     try:
-        ret = str(ret)
+        return str(data)
     except (ValueError, TypeError):
         raise StringError
-    return ret
 
 
 def fnone(data=None):
