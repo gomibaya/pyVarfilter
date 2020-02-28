@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="varfilter",
-    version="1.0.0a8",
+    version="1.0.0a9",
     author="Esteban Barón",
     author_email="esteban@gominet.net",
     description="filtra variables de distintas fuentes",

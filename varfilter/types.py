@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Definiciones de tipos básicos habituales.
 
-Definición de Exceptions para integer,Float,Boolean
+Definición de clases para Db,Query y Datos usuarios.
 
 Funciones de conversión a int,bool,float
 
@@ -13,7 +13,7 @@ __copyright__ = "Copyright 2020, Esteban Barón ,EBP"
 __license__ = "MIT"
 __email__ = "esteban@gominet.net"
 __status__ = "Alpha"
-__version__ = "1.0.0a8"
+__version__ = "1.0.0a9"
 
 
 class UserAuthInfo:
@@ -46,6 +46,18 @@ class DbInfo:
 
     def getPort(self):
         return self._data.get('port')
+
+
+class SQLQuery:
+    def __init__(self, query, params):
+        self._query = query
+        self._params = params
+
+    def getQuery(self):
+        return self._query
+
+    def getParams(self):
+        return self.params
 
 
 if __name__ == "__main__":
