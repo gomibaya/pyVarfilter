@@ -13,7 +13,7 @@ __copyright__ = "Copyright 2020, Esteban Barón ,EBP"
 __license__ = "MIT"
 __email__ = "esteban@gominet.net"
 __status__ = "Alpha"
-__version__ = "1.0.0a9"
+__version__ = "1.0.0a10"
 
 
 class UserAuthInfo:
@@ -57,7 +57,7 @@ class SQLQuery:
         return self._query
 
     def getParams(self):
-        return self.params
+        return self._params
 
 
 if __name__ == "__main__":
